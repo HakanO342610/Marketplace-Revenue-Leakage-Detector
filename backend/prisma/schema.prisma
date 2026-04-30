@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+
+  runs        UploadRun[]
+  memberships Membership[]
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  memberships Membership[]
+  runs        UploadRun[]
+}
+
+model Membership {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  orgId     String
+  role      String
+  createdAt DateTime @default(now())
+
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, orgId])
+  @@index([orgId])
+  @@index([userId])
+}
+
+model UploadRun {
+  id          String   @id @default(cuid())
+  userId      String?
+  orgId       String?
+  marketplace String?
+  filename    String
+  rowCount    Int
+  createdAt   DateTime @default(now())
+
+  user    User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  org     Organization? @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  rows    OrderRow[]
+  results IssueResult[]
+
+  @@index([userId])
+  @@index([orgId])
+}
+
+model OrderRow {
+  id                     Int    @id @default(autoincrement())
+  runId                  String
+  marketplace            String
+  sellerId               String
+  orderId                String
+  orderLineId            String
+  sku                    String
+  category               String
+  quantity               Int
+  unitPrice              Float
+  grossAmount            Float
+  commissionRateExpected Float
+  commissionCharged      Float
+  logisticsFee           Float
+  campaignDiscount       Float
+  netPaid                Float
+  orderDate              String
+  payoutDate             String
+  isReturn               Boolean
+  refundAmount           Float
+  commissionRefund       Float
+
+  run UploadRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@index([runId])
+  @@index([orderLineId])
+}
+
+model IssueResult {
+  id              Int    @id @default(autoincrement())
+  runId           String
+  orderLineId     String
+  issues          String
+  estimatedLoss   Float
+  expectedAmount  Float
+  actualAmount    Float
+  confidenceScore Float  @default(1.0)
+
+  run          UploadRun          @relation(fields: [runId], references: [id], onDelete: Cascade)
+  attributions IssueAttribution[]
+
+  @@index([runId])
+  @@index([orderLineId])
+}
+
+model IssueAttribution {
+  id            Int    @id @default(autoincrement())
+  issueResultId Int
+  ruleName      String
+  expected      Float
+  actual        Float
+  variance      Float
+  loss          Float
+  severity      String
+  confidence    Float
+  explanation   String
+
+  issueResult IssueResult @relation(fields: [issueResultId], references: [id], onDelete: Cascade)
+
+  @@index([issueResultId])
+  @@index([ruleName])
+}
