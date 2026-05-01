@@ -61,10 +61,9 @@ services:
       BACKEND_INTERNAL_URL: http://backend:3101
       NODE_ENV: production
     ports:
-      # Map to host port 80 — fits Hetzner Cloud Firewall default open ports.
-      # When a domain + SSL (Caddy) lands later, switch to 3100 and let
-      # Caddy own 80/443.
-      - "80:3000"
+      # Hetzner Cloud Firewall has TCP 3100 open; OS UFW too.
+      # When a domain + Caddy lands, swap to 80/443 and remove this.
+      - "3100:3000"
     depends_on:
       - backend
     networks:
