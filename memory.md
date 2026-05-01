@@ -157,6 +157,37 @@ Hetzner CX23 deploy tamamlandı. Erişim: **http://89.167.115.209:3100**
 
 ---
 
+### Session 5 — 2026-05-01 — Telegram alert pipeline + savunma katmanı
+
+**Yapılanlar:**
+- **Defensive guards** (Next.js rewrite gotcha için): `next.config.ts` production build'de localhost'a düşüyorsa stderr'a loud warning, `frontend/Dockerfile` `RUN test -n "$BACKEND_INTERNAL_URL"` ile boş ARG halinde build patlatıyor. 30 satırlık ⚠️ DO NOT REMOVE comment'i de eklendi. Yarın biri Dockerfile'a dokunup ARG'ı silmeye kalkarsa veya boş geçerse build başarısız.
+- **TelegramService** ([backend/src/common/telegram.service.ts](backend/src/common/telegram.service.ts)) — Xpensio'nun pattern'inin bire bir mirror'u. Native `https`, NestJS injectable, HTML parse mode, 5sn timeout, hata sessiz handle (servis bozulsa app çökmez).
+- **AllExceptionsFilter** ([backend/src/common/filters/all-exceptions.filter.ts](backend/src/common/filters/all-exceptions.filter.ts)) — global `APP_FILTER`. Sadece **5xx** Telegram'a gider (4xx normal client hataları, kanalı kirletmez). Stack trace ilk 1500 char, response body standart format.
+- **CommonModule** global — `TelegramService`'i tüm modüllere expose ediyor.
+- **High-leakage business alert** — `ReconciliationService.runForRunId()` sonunda `leakageRate >= 5%` ise `⚠️ Yüksek kayıp oranı tespit edildi` mesajı. İçerik: runId, dosya adı, org, kayıp tutarı, oran, sorun sayısı.
+- **GitHub Actions** ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) — 3 step: 🚀 deploy başladı / ✅ deploy başarılı (commit + URL) / 🔴 deploy başarısız (run URL). Secrets: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
+- **vps-backup.sh** ([scripts/vps-backup.sh](scripts/vps-backup.sh)) — `/opt/mrld/.env` okuyor, success'te ✅ + dosya adı + boyut, fail'de 🔴 + journalctl ipucu.
+- **Env template'leri** güncel: `backend/.env.example`, `.env.prod.example` Telegram alanlarını içeriyor.
+- **docker-compose.prod.yml** backend env'ine `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` passthrough.
+
+**Ortak kanal:** `xpensio_alerts` Telegram kanalı, bot `@xpensio_alerts_bot` (ID 8628726429), chat 8736209752. Hem Xpensio hem MRLD aynı kanala atıyor — message prefix `[MRLD]` ile ayrılıyor.
+
+**Sunucu deployment:**
+- `/opt/mrld/.env`'e Telegram credentials eklendi.
+- Backend rebuild + recreate yapıldı, healthy.
+- E2E doğrulama: 5xx provoke (`/api/reconcile {runId:null}`) → filter loged → Telegram'a alert düştü (sandbox sanity 281, ikinci direct test 283 — aradaki 282 filter alert'i).
+
+**Bekleyen manuel aksiyonlar (kullanıcı):**
+- [ ] GitHub repo Settings → Secrets'a `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` ekle (deploy notification için)
+- [ ] `cron.daily/mrld-backup` kurulumu (backup notification için)
+
+**Kritik notlar:**
+- Telegram credentials prod `.env`'de — repo'da ASLA commit'lenmedi (`.env` gitignore'da)
+- `xpensio_alerts` private chat olduğu için `getUpdates` API'si mesaj listesi vermiyor — bu normal, kanalı telefondan kontrol et
+- Filter `void this.telegram.alert(...)` non-blocking — Telegram down olsa bile API yanıt geciktirilmez
+
+---
+
 ### Açık Sprint Başlıkları (2026-05-01 itibariyle, sırasız backlog)
 
 Bunlar bağımsız sprint'ler olarak ele alınabilir — herhangi birinden başlayabiliriz:
