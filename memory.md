@@ -96,6 +96,49 @@ Against `datasets/sample.csv`:
 
 ---
 
+### Session 4 — 2026-05-01 — PROD CANLI 🚀
+
+Hetzner CX23 deploy tamamlandı. Erişim: **http://89.167.115.209:3100**
+
+**Yapılanlar:**
+- Xpensio pattern'i mirror'landı: Postgres in-Docker, backend internal-only, frontend host:3100'e exposed.
+- `backend/Dockerfile` (multi-stage NestJS + prisma migrate deploy on boot)
+- `frontend/Dockerfile` (Next.js standalone, **build arg `BACKEND_INTERNAL_URL`** baked into rewrite manifest — kritik fix, runtime env'le çalışmıyor çünkü Next rewrites build-time evaluate ediliyor)
+- `docker-compose.prod.yml` (postgres + backend + frontend, sadece frontend host port 3100'de exposed)
+- `.env.prod.example` + `DEPLOY.md` (IP-only walkthrough, Türkçe)
+- `.github/workflows/deploy.yml` (HETZNER_SSH_KEY + HETZNER_HOST secrets ile push-deploy — kullanıcı henüz secret eklemedi)
+- `scripts/vps-backup.sh` (günlük pg_dump + 7-gün rotation, /etc/cron.daily/'e kopyalanmadı henüz)
+
+**Sunucu durumu:**
+- `/opt/mrld` clone, `.env` üretildi (POSTGRES_PASSWORD 32-char base64, JWT_SECRET 128-char hex)
+- 3 container running: `mrld_db` (5432 internal) + `mrld_api` (3101 internal) + `mrld_web` (3100→3000 host)
+- UFW: 22, 80, 443, 3100 açık
+- Hetzner Cloud Firewall ("Api Izin"): 443 + 3100 (TCP) açık
+- Sistemde nginx zaten çalışıyor (port 80) — başka uygulamaya ait, dokunulmadı
+- Sistemde 3001 zaten dolu (muhtemelen Xpensio backend) — bizim backend'imiz container içinde 3101 dinliyor, host'ta yok, çakışma yok
+
+**E2E doğrulama (external 89.167.115.209:3100):**
+- Landing 200 OK, MRLD/Pazaryerinde/kaybettiğin/Ücretsiz Denetim/Trendyol/Hepsiburada hepsi render ✓
+- `/api/auth/me` (no token) → 401 ✓
+- Register `demo@mrld.com` / `demo1234` → user + token + auto-personal-org ✓
+- Login → access_token (205 char) ✓
+- Upload sample.csv → 1500 satır, runId döndü ✓
+- Reconcile → 542 issue, 65.181,50 ₺ ✓
+- Summary v2: total_leakage 65.181,50 / annual_impact 782.178 / risk MEDIUM / top: Eksik İade 60.681,50 ✓
+
+**Önemli kararlar:**
+- Domain henüz alınmadı, IP+port erişim (HTTP, no SSL) — pilot için yeterli
+- Postgres in-Docker (not Hetzner managed) — Xpensio pattern, simpler ops
+- GitHub Actions deploy hazır ama secrets yok — manuel `git pull && up -d --build` ile güncelleme
+
+**Yarın session'a bilgi:**
+- Demo URL: `http://89.167.115.209:3100`
+- Demo hesap: `demo@mrld.com` / `demo1234`
+- Backend logs: `ssh root@89.167.115.209 "docker compose -f /opt/mrld/docker-compose.prod.yml logs -f backend"`
+- Update flow: `cd /opt/mrld && git pull && docker compose -f docker-compose.prod.yml --env-file .env up -d --build`
+
+---
+
 ### Açık Sprint Başlıkları (2026-05-01 itibariyle, sırasız backlog)
 
 Bunlar bağımsız sprint'ler olarak ele alınabilir — herhangi birinden başlayabiliriz:
