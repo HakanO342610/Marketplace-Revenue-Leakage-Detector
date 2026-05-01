@@ -209,7 +209,15 @@ export default async function DashboardPage({
         {summary.insights && (
           <section className="flex flex-col gap-3">
             <SectionLabel>Layer 02 — Yönetici İçgörüsü</SectionLabel>
-            <InsightPanel insights={summary.insights} />
+            <InsightPanel
+              insights={summary.insights}
+              totalLeakage={summary.total_leakage}
+              leakageRate={summary.leakage_rate}
+              issueCount={summary.issue_count}
+              confidenceScore={summary.confidence_score}
+              topCategory={summary.category_breakdown?.[0]}
+              topMarketplace={summary.marketplace_breakdown?.[0]}
+            />
           </section>
         )}
 
