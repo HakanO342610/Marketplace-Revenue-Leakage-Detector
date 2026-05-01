@@ -137,6 +137,24 @@ Hetzner CX23 deploy tamamlandı. Erişim: **http://89.167.115.209:3100**
 - Backend logs: `ssh root@89.167.115.209 "docker compose -f /opt/mrld/docker-compose.prod.yml logs -f backend"`
 - Update flow: `cd /opt/mrld && git pull && docker compose -f docker-compose.prod.yml --env-file .env up -d --build`
 
+**Bekleyen anlık aksiyonlar (kullanıcı manuel):**
+- [ ] **GitHub Actions auto-deploy aç** — repo Settings → Secrets and variables → Actions:
+  - `HETZNER_SSH_KEY` (private key, sunucudan: `cat ~/.ssh/id_ed25519` veya yeni deploy key oluştur: `ssh-keygen -t ed25519 -f ~/.ssh/mrld_deploy && cat ~/.ssh/mrld_deploy.pub >> ~/.ssh/authorized_keys`, sonra private key'i secret'a yapıştır)
+  - `HETZNER_HOST` = `89.167.115.209`
+  - `HETZNER_USER` = `root`
+  - Sonraki `git push main` otomatik build + deploy yapar (~2 dk)
+- [ ] **Daily Postgres backup** — `ssh root@89.167.115.209 "cp /opt/mrld/scripts/vps-backup.sh /etc/cron.daily/mrld-backup && chmod +x /etc/cron.daily/mrld-backup"`
+- [ ] **Demo veriyi yenile (opsiyonel)** — `demo@mrld.com` org'una sample.csv yüklendi ve reconcile çalıştı (runId `cmomozo4l0003nu01cts1e4bz`). Sıfırlamak için: backend container'da `prisma migrate reset --force` ya da `IssueResult` + `OrderRow` + `UploadRun` tablolarını DELETE.
+
+**Sunucudaki diğer servisler (dokunulmadı):**
+- nginx system service (port 80) — kullanıcının başka projelerine ait, çalışmaya devam ediyor
+- 3001 portu dolu — muhtemelen Xpensio backend container'ı (`expense_api`)
+- 5433 portu dolu — Xpensio Postgres (`expense_db`), bizim Postgres'imiz container internal 5432 dinliyor, çakışma yok
+- 22 SSH — kullanıcı root key'i ile bağlanıyorum (sandbox SSH agent'ında yüklü)
+
+**Kritik fix bu session'da:**
+- Next.js rewrites build-time'da serialize ediliyor → runtime env okunmuyor → `BACKEND_INTERNAL_URL` Docker build ARG olarak inject edilmek zorunda. `frontend/Dockerfile` builder stage'inde `ARG BACKEND_INTERNAL_URL=http://backend:3101` + `ENV ...`, `docker-compose.prod.yml` build args üzerinden geçiriliyor. Bu yapılmadığı sürece tüm `/api/*` rewrites `localhost:3101`'e gidiyor → ECONNREFUSED 500 dönüyor.
+
 ---
 
 ### Açık Sprint Başlıkları (2026-05-01 itibariyle, sırasız backlog)
