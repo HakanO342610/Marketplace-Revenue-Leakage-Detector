@@ -14,7 +14,22 @@ jobs:
     name: SSH deploy to Hetzner
     runs-on: ubuntu-latest
     steps:
+      - name: Notify Telegram — deploy started
+        if: ${{ secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHAT_ID != '' }}
+        env:
+          BOT: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SHA: ${{ github.sha }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          curl -s -o /dev/null -X POST \
+            "https://api.telegram.org/bot${BOT}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT}" \
+            --data-urlencode "text=🚀 <b>[MRLD] Deploy başladı</b>%0Acommit <code>${SHA:0:7}</code> · ${ACTOR}" \
+            --data-urlencode "parse_mode=HTML" || true
+
       - name: Deploy via SSH
+        id: deploy
         env:
           HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY }}
           HETZNER_HOST: ${{ secrets.HETZNER_HOST }}
@@ -40,6 +55,36 @@ jobs:
                echo 'Deploy complete:' && docker compose -f docker-compose.prod.yml ps"
 
           rm -f /tmp/deploy_key
+
+      - name: Notify Telegram — deploy success
+        if: ${{ success() && secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHAT_ID != '' }}
+        env:
+          BOT: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SHA: ${{ github.sha }}
+          MSG: ${{ github.event.head_commit.message }}
+        run: |
+          # Limit commit message to first line, max 200 chars
+          SHORT_MSG=$(printf '%s' "$MSG" | head -n 1 | cut -c1-200)
+          curl -s -o /dev/null -X POST \
+            "https://api.telegram.org/bot${BOT}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT}" \
+            --data-urlencode "text=✅ <b>[MRLD] Deploy başarılı</b>%0Acommit <code>${SHA:0:7}</code>%0A${SHORT_MSG}%0A%0Ahttp://89.167.115.209:3100" \
+            --data-urlencode "parse_mode=HTML" || true
+
+      - name: Notify Telegram — deploy failed
+        if: ${{ failure() && secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHAT_ID != '' }}
+        env:
+          BOT: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -o /dev/null -X POST \
+            "https://api.telegram.org/bot${BOT}/sendMessage" \
+            --data-urlencode "chat_id=${CHAT}" \
+            --data-urlencode "text=🔴 <b>[MRLD] Deploy BAŞARISIZ</b>%0Acommit <code>${SHA:0:7}</code>%0ALog: ${RUN_URL}" \
+            --data-urlencode "parse_mode=HTML" || true
 
       - name: Skipped (secrets missing)
         if: env.HETZNER_SSH_KEY == ''

@@ -1,5 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { TelegramService } from '../../common/telegram.service';
 import { MarketplaceRow } from '../../common/types/marketplace-row';
 import { EngineResult, ReconciliationEngine } from './engine/reconciliation.engine';
 import { ruleRegistry } from './engine/rule.registry';
@@ -11,10 +12,14 @@ export interface ReconciliationSummary {
 }
 
 const BATCH_SIZE = 50;
+const HIGH_LEAKAGE_RATE_PCT = 5;
 
 @Injectable()
 export class ReconciliationService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly telegram: TelegramService,
+  ) {}
 
   async runForRunId(
     runId: string,
@@ -22,7 +27,7 @@ export class ReconciliationService {
   ): Promise<ReconciliationSummary> {
     const run = await this.prisma.uploadRun.findFirst({
       where: { id: runId, orgId },
-      select: { id: true },
+      select: { id: true, filename: true },
     });
     if (!run) {
       throw new ForbiddenException('Run not found or access denied');
@@ -63,6 +68,29 @@ export class ReconciliationService {
 
     const totalLoss =
       Math.round(filtered.reduce((s, r) => s + r.estimatedLoss, 0) * 100) / 100;
+
+    // Business alert: leakage > 5% triggers a Telegram message to the
+    // shared xpensio_alerts channel. Non-blocking — failures swallowed.
+    const totalRevenue = await this.prisma.orderRow.aggregate({
+      where: { runId },
+      _sum: { grossAmount: true },
+    });
+    const revenue = totalRevenue._sum.grossAmount ?? 0;
+    const leakageRate =
+      revenue > 0 ? (totalLoss / revenue) * 100 : 0;
+
+    if (leakageRate >= HIGH_LEAKAGE_RATE_PCT) {
+      void this.telegram.alert(
+        '⚠️',
+        `Yüksek kayıp oranı tespit edildi`,
+        `Run: ${runId}\n` +
+          `Dosya: ${run.filename}\n` +
+          `Org: ${orgId}\n` +
+          `Kayıp: ₺${totalLoss.toLocaleString('tr-TR')}\n` +
+          `Oran: %${leakageRate.toFixed(2)}\n` +
+          `Sorun: ${filtered.length}`,
+      );
+    }
 
     return {
       runId,
