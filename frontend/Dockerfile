@@ -15,11 +15,17 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Bake the backend URL into the rewrite manifest at build time.
-# Next.js rewrites() are evaluated once during `next build` and
-# serialized into routes-manifest.json — runtime env is too late.
+# ⚠️ CRITICAL — DO NOT REMOVE.
+# Next.js evaluates `rewrites()` at BUILD time and serializes the
+# destinations into routes-manifest.json. Runtime env is NOT honored.
+# Without this ARG, the frontend container hard-codes localhost:3101
+# into the manifest and every /api/* request returns ECONNREFUSED 500.
+# See next.config.ts header for full explanation.
 ARG BACKEND_INTERNAL_URL=http://backend:3101
 ENV BACKEND_INTERNAL_URL=$BACKEND_INTERNAL_URL
+
+# Hard-fail the build if anyone passes an empty value.
+RUN test -n "$BACKEND_INTERNAL_URL" || (echo "ERROR: BACKEND_INTERNAL_URL build arg is empty. Pass --build-arg BACKEND_INTERNAL_URL=http://backend:3101" && exit 1)
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
