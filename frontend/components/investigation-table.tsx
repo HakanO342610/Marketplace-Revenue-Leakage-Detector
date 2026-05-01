@@ -84,9 +84,9 @@ export default function InvestigationTable({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/5 bg-[#11141b] shadow-[0_1px_0_0_rgba(255,255,255,0.02)_inset]">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       {/* TAB STRIP */}
-      <div className="flex flex-wrap items-center gap-0 border-b border-white/5 px-3">
+      <div className="flex flex-wrap items-center gap-0 border-b border-slate-200 px-3">
         {TABS.map((t) => {
           const active = activeTab === t.key;
           const count = counts[t.key];
@@ -96,15 +96,15 @@ export default function InvestigationTable({
               type="button"
               onClick={() => setActiveTab(t.key)}
               className={`group relative inline-flex items-center gap-2 px-3.5 py-3 text-[13px] font-medium transition-colors ${
-                active ? "text-zinc-100" : "text-zinc-400 hover:text-zinc-200"
+                active ? "text-slate-900" : "text-slate-500 hover:text-slate-800"
               }`}
             >
               <span>{t.label}</span>
               <span
                 className={`inline-flex min-w-[1.5rem] items-center justify-center rounded-full px-1.5 py-0.5 font-mono text-[11px] tabular-nums ${
                   active
-                    ? "bg-violet-500/15 text-violet-200"
-                    : "bg-white/[0.04] text-zinc-400 group-hover:bg-white/[0.06]"
+                    ? "bg-emerald-50 text-emerald-700"
+                    : "bg-slate-100 text-slate-600 group-hover:bg-slate-200"
                 }`}
               >
                 {count}
@@ -112,7 +112,7 @@ export default function InvestigationTable({
               {active && (
                 <span
                   aria-hidden
-                  className="absolute inset-x-2 -bottom-px h-[1.5px] bg-violet-400"
+                  className="absolute inset-x-2 -bottom-px h-[2px] bg-emerald-600"
                 />
               )}
             </button>
@@ -124,7 +124,7 @@ export default function InvestigationTable({
       <div className="overflow-x-auto">
         <table className="min-w-full text-[13px]">
           <thead>
-            <tr className="border-b border-white/5">
+            <tr className="border-b border-slate-200">
               <Th>Sipariş Satır No</Th>
               <Th>Sorun</Th>
               <Th align="right">Beklenen</Th>
@@ -139,7 +139,7 @@ export default function InvestigationTable({
               <tr>
                 <td
                   colSpan={COL_COUNT}
-                  className="px-4 py-12 text-center text-[12px] uppercase tracking-[0.14em] text-zinc-400"
+                  className="px-4 py-12 text-center text-[12px] uppercase tracking-[0.14em] text-slate-500"
                 >
                   Bu filtrede gösterilecek satır yok
                 </td>
@@ -184,9 +184,9 @@ function highestSeverityFromState(
 
 function severityBorderClass(s: AttributionSeverity | null): string {
   if (s === "critical") return "shadow-[inset_2px_0_0_0_#ef4444]";
-  if (s === "warning") return "shadow-[inset_2px_0_0_0_#fbbf24]";
-  if (s === "info") return "shadow-[inset_2px_0_0_0_#818cf8]";
-  return "shadow-[inset_2px_0_0_0_rgba(255,255,255,0.05)]";
+  if (s === "warning") return "shadow-[inset_2px_0_0_0_#f59e0b]";
+  if (s === "info") return "shadow-[inset_2px_0_0_0_#0ea5e9]";
+  return "shadow-[inset_2px_0_0_0_#cbd5e1]";
 }
 
 function RowFragment({
@@ -206,10 +206,10 @@ function RowFragment({
 }) {
   const varianceClass =
     variance < 0
-      ? "text-red-300"
+      ? "text-red-600"
       : variance > 0
-        ? "text-zinc-300"
-        : "text-zinc-500";
+        ? "text-slate-700"
+        : "text-slate-400";
 
   // Severity-tinted left border. Defaults to a soft red because rows here
   // already carry confirmed leakage by definition (filter on row.issues).
@@ -221,13 +221,13 @@ function RowFragment({
   return (
     <>
       <tr
-        className={`border-b border-white/5 transition-colors ${borderClass} ${
-          isOpen ? "bg-white/[0.03]" : "hover:bg-white/[0.02]"
+        className={`border-b border-slate-200 transition-colors ${borderClass} ${
+          isOpen ? "bg-emerald-50/30" : "hover:bg-slate-50"
         }`}
       >
         <Td>
-          <span className="font-mono text-[12px] text-zinc-200">
-            <span className="text-zinc-500">·</span> {row.orderLineId}
+          <span className="font-mono text-[12px] text-slate-700">
+            <span className="text-slate-400">·</span> {row.orderLineId}
           </span>
         </Td>
         <Td>
@@ -235,7 +235,7 @@ function RowFragment({
             {row.issues.map((issue) => (
               <span
                 key={issue}
-                className="inline-flex items-center rounded-full border border-indigo-500/30 bg-indigo-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em] text-indigo-200"
+                className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em] text-emerald-700"
               >
                 {issueLabel(issue)}
               </span>
@@ -243,12 +243,12 @@ function RowFragment({
           </div>
         </Td>
         <Td align="right">
-          <span className="tabular-nums text-zinc-200">
+          <span className="tabular-nums text-slate-700">
             {formatTRY(row.expectedAmount)}
           </span>
         </Td>
         <Td align="right">
-          <span className="tabular-nums text-zinc-200">
+          <span className="tabular-nums text-slate-700">
             {formatTRY(row.actualAmount)}
           </span>
         </Td>
@@ -258,7 +258,7 @@ function RowFragment({
           </span>
         </Td>
         <Td align="right">
-          <span className="font-semibold tabular-nums text-red-400">
+          <span className="font-semibold tabular-nums text-red-600">
             {formatTRY(row.estimatedLoss)}
           </span>
         </Td>
@@ -267,24 +267,24 @@ function RowFragment({
             type="button"
             onClick={onToggle}
             aria-expanded={isOpen}
-            className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.02] px-2.5 py-1 font-mono text-[11px] text-zinc-300 transition-colors hover:border-white/20 hover:bg-white/[0.05] hover:text-zinc-100"
+            className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1 font-mono text-[11px] text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
           >
             <span className="uppercase tracking-[0.10em]">
               {isOpen ? "Kapat" : "Aç"}
             </span>
-            <span aria-hidden className="text-zinc-500">
+            <span aria-hidden className="text-slate-400">
               {isOpen ? "▾" : "▸"}
             </span>
           </button>
         </Td>
       </tr>
       {isOpen && (
-        <tr className="bg-[#0e1119]">
+        <tr className="bg-slate-50">
           <td colSpan={COL_COUNT} className="px-4 py-4">
             {!state || state.status === "loading" ? (
               <SkeletonRow />
             ) : state.status === "error" ? (
-              <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">
+              <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-700">
                 {state.message}
               </div>
             ) : (
@@ -300,8 +300,8 @@ function RowFragment({
 function SkeletonRow() {
   return (
     <div className="flex flex-col gap-2">
-      <div className="h-14 animate-pulse rounded-md bg-white/[0.04]" />
-      <div className="h-14 animate-pulse rounded-md bg-white/[0.03]" />
+      <div className="h-14 animate-pulse rounded-md bg-slate-200/60" />
+      <div className="h-14 animate-pulse rounded-md bg-slate-200/40" />
     </div>
   );
 }
@@ -317,7 +317,7 @@ function Th({
   return (
     <th
       scope="col"
-      className={`px-4 py-3 ${alignClass} text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400`}
+      className={`px-4 py-3 ${alignClass} text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500`}
     >
       {children}
     </th>

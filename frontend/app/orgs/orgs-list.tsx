@@ -30,14 +30,14 @@ export default function OrgsList({ orgs }: { orgs: CardOrg[] }) {
           key={o.id}
           type="button"
           onClick={() => pick(o.id)}
-          className="group flex flex-col gap-4 rounded-xl border border-white/5 bg-[#11141b] p-5 text-left transition-colors hover:border-violet-400/30 hover:bg-[#141824]"
+          className="group flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50/30"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex flex-col gap-1.5">
-              <span className="text-[15px] font-semibold tracking-[-0.01em] text-zinc-50">
+              <span className="text-[15px] font-semibold tracking-[-0.01em] text-slate-900">
                 {o.name}
               </span>
-              <span className="font-mono text-[11.5px] text-zinc-400">
+              <span className="font-mono text-[11.5px] text-slate-500">
                 {o.slug}
               </span>
             </div>
@@ -47,14 +47,14 @@ export default function OrgsList({ orgs }: { orgs: CardOrg[] }) {
               {o.roleLabel}
             </span>
           </div>
-          <div className="flex items-center justify-between border-t border-white/5 pt-4">
-            <span className="text-[12.5px] text-zinc-300">
-              <span className="tabular-nums text-zinc-100">
+          <div className="flex items-center justify-between border-t border-slate-200 pt-4">
+            <span className="text-[12.5px] text-slate-500">
+              <span className="tabular-nums text-slate-700">
                 {o.memberCount}
               </span>{" "}
               üye
             </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400 group-hover:text-violet-300">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500 group-hover:text-emerald-700">
               Geç →
             </span>
           </div>

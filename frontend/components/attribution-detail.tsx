@@ -15,7 +15,7 @@ export default function AttributionDetail({
 }) {
   if (!attributions || attributions.length === 0) {
     return (
-      <div className="rounded-md border border-dashed border-white/10 bg-white/[0.02] px-4 py-6 text-center text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+      <div className="rounded-md border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-[11px] uppercase tracking-[0.14em] text-slate-500">
         Detay verisi yok (eski çalıştırma)
       </div>
     );
@@ -33,28 +33,28 @@ export default function AttributionDetail({
               : "Bilgi";
         const lossClass =
           a.loss > 0
-            ? "text-red-300"
+            ? "text-red-600"
             : a.loss < 0
-              ? "text-emerald-300"
-              : "text-zinc-300";
+              ? "text-emerald-700"
+              : "text-slate-700";
         const varianceClass =
           a.variance < 0
-            ? "text-red-300"
+            ? "text-red-600"
             : a.variance > 0
-              ? "text-zinc-300"
-              : "text-zinc-500";
+              ? "text-slate-700"
+              : "text-slate-400";
 
         const sevAccent =
           a.severity === "critical"
             ? "before:bg-red-500"
             : a.severity === "warning"
-              ? "before:bg-amber-400"
-              : "before:bg-indigo-400";
+              ? "before:bg-amber-500"
+              : "before:bg-sky-500";
 
         return (
           <div
             key={`${a.ruleName}-${idx}`}
-            className={`relative flex flex-col gap-4 rounded-lg border border-white/5 bg-[#171a23] p-5 pl-6 lg:flex-row lg:items-start lg:gap-6 before:absolute before:left-0 before:top-3 before:bottom-3 before:w-[2px] before:rounded-full ${sevAccent}`}
+            className={`relative flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 pl-6 shadow-sm lg:flex-row lg:items-start lg:gap-6 before:absolute before:left-0 before:top-3 before:bottom-3 before:w-[2px] before:rounded-full ${sevAccent}`}
           >
             <div className="flex shrink-0 items-start gap-3">
               <span
@@ -64,10 +64,10 @@ export default function AttributionDetail({
               </span>
             </div>
             <div className="flex flex-1 flex-col gap-2">
-              <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400">
+              <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
                 {issueLabel(a.ruleName)}
               </div>
-              <p className="max-w-2xl text-[13.5px] leading-relaxed text-zinc-200">
+              <p className="max-w-2xl text-[13.5px] leading-relaxed text-slate-700">
                 {a.explanation}
               </p>
             </div>
@@ -85,11 +85,11 @@ export default function AttributionDetail({
                 valueClass={`font-semibold ${lossClass}`}
               />
               <div className="flex flex-col items-end gap-1">
-                <dt className="text-[10px] uppercase tracking-[0.14em] text-zinc-400">
+                <dt className="text-[10px] uppercase tracking-[0.14em] text-slate-500">
                   Güven
                 </dt>
                 <dd>
-                  <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 font-mono text-[11px] tabular-nums text-emerald-300">
+                  <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-mono text-[11px] tabular-nums text-emerald-700">
                     {formatConfidence(a.confidence)}
                   </span>
                 </dd>
@@ -105,7 +105,7 @@ export default function AttributionDetail({
 function Metric({
   label,
   value,
-  valueClass = "text-zinc-200",
+  valueClass = "text-slate-900",
 }: {
   label: string;
   value: string;
@@ -113,7 +113,7 @@ function Metric({
 }) {
   return (
     <div className="flex flex-col items-end gap-1">
-      <dt className="text-[10px] uppercase tracking-[0.14em] text-zinc-400">
+      <dt className="text-[10px] uppercase tracking-[0.14em] text-slate-500">
         {label}
       </dt>
       <dd className={`text-[12px] tabular-nums ${valueClass}`}>{value}</dd>

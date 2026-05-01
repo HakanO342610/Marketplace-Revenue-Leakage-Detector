@@ -34,9 +34,9 @@ const roleLabel: Record<Role, string> = {
 };
 
 const roleBadgeClass: Record<Role, string> = {
-  admin: "border-violet-400/30 bg-violet-500/15 text-violet-200",
-  member: "border-zinc-400/20 bg-white/[0.04] text-zinc-200",
-  viewer: "border-zinc-500/20 bg-white/[0.02] text-zinc-400",
+  admin: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  member: "border-slate-200 bg-slate-100 text-slate-700",
+  viewer: "border-slate-200 bg-slate-50 text-slate-500",
 };
 
 export default function MembersPanel({
@@ -118,13 +118,13 @@ export default function MembersPanel({
       <div className="flex flex-col gap-6">
         <header className="flex items-end justify-between gap-4">
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
               {org.slug}
             </span>
-            <h2 className="text-[28px] font-medium tracking-[-0.02em] text-zinc-50">
+            <h2 className="text-[28px] font-medium tracking-[-0.02em] text-slate-900">
               {org.name} · Üyeler
             </h2>
-            <p className="text-[13.5px] leading-relaxed text-zinc-300">
+            <p className="text-[13.5px] leading-relaxed text-slate-600">
               Organizasyondaki kişileri ve rollerini yönet.
             </p>
           </div>
@@ -138,7 +138,7 @@ export default function MembersPanel({
         {error && (
           <div
             role="alert"
-            className="relative rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 pl-5 text-[13px] text-red-300"
+            className="relative rounded-md border border-red-200 bg-red-50 px-4 py-3 pl-5 text-[13px] text-red-700"
           >
             <span
               aria-hidden
@@ -150,10 +150,10 @@ export default function MembersPanel({
 
         {isAdmin && <InviteForm onInvite={handleInvite} />}
 
-        <div className="overflow-hidden rounded-xl border border-white/5 bg-[#11141b] shadow-[0_1px_0_0_rgba(255,255,255,0.02)_inset]">
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <table className="w-full text-left text-[13px]">
             <thead>
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-slate-200">
                 <Th>Email</Th>
                 <Th>Ad</Th>
                 <Th>Rol</Th>
@@ -170,9 +170,9 @@ export default function MembersPanel({
                 return (
                   <tr
                     key={m.userId}
-                    className="border-b border-white/5 transition-colors hover:bg-white/[0.02]"
+                    className="border-b border-slate-200 transition-colors hover:bg-slate-50"
                   >
-                    <td className="px-4 py-3.5 text-zinc-200">
+                    <td className="px-4 py-3.5 text-slate-700">
                       <span
                         className="block max-w-[32ch] truncate"
                         title={m.email}
@@ -180,13 +180,13 @@ export default function MembersPanel({
                         {m.email}
                       </span>
                       {isMe && (
-                        <span className="ml-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-violet-300/80">
+                        <span className="ml-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-emerald-700">
                           (sen)
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3.5 text-zinc-300">
-                      {m.name ?? <span className="text-zinc-600">—</span>}
+                    <td className="px-4 py-3.5 text-slate-600">
+                      {m.name ?? <span className="text-slate-400">—</span>}
                     </td>
                     <td className="px-4 py-3.5">
                       {isAdmin && !isLastAdmin ? (
@@ -199,7 +199,7 @@ export default function MembersPanel({
                               e.target.value as Role,
                             )
                           }
-                          className="rounded-md border border-white/10 bg-[#0e1119] px-2 py-1 text-[12px] text-zinc-100 transition-colors focus:border-violet-400/60 focus:outline-none focus:ring-2 focus:ring-violet-400/15 disabled:opacity-50"
+                          className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[12px] text-slate-900 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:opacity-50"
                         >
                           {ROLE_OPTIONS.map((opt) => (
                             <option key={opt.value} value={opt.value}>
@@ -220,7 +220,7 @@ export default function MembersPanel({
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3.5 tabular-nums text-zinc-400">
+                    <td className="px-4 py-3.5 tabular-nums text-slate-500">
                       {formatDate(m.createdAt)}
                     </td>
                     {isAdmin && (
@@ -232,7 +232,7 @@ export default function MembersPanel({
                           title={
                             isLastAdmin ? "tek yöneticisin" : undefined
                           }
-                          className="rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 text-[11.5px] font-medium text-zinc-300 transition-colors hover:border-red-400/40 hover:bg-red-500/10 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-white/10 disabled:hover:bg-white/[0.02] disabled:hover:text-zinc-300"
+                          className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-[11.5px] font-medium text-slate-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:bg-white disabled:hover:text-slate-700"
                         >
                           Çıkar
                         </button>
@@ -245,7 +245,7 @@ export default function MembersPanel({
                 <tr>
                   <td
                     colSpan={isAdmin ? 5 : 4}
-                    className="px-4 py-10 text-center text-[13px] text-zinc-500"
+                    className="px-4 py-10 text-center text-[13px] text-slate-500"
                   >
                     Henüz üye yok.
                   </td>
@@ -291,13 +291,13 @@ function InviteForm({
   }
 
   return (
-    <div className="rounded-xl border border-white/5 bg-[#11141b] p-5">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center gap-2">
         <span
           aria-hidden
-          className="inline-block h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]"
+          className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-600"
         />
-        <span className="font-mono text-[10px] uppercase tracking-[0.20em] text-zinc-500">
+        <span className="font-mono text-[10px] uppercase tracking-[0.20em] text-slate-500">
           Üye Davet Et
         </span>
       </div>
@@ -309,7 +309,7 @@ function InviteForm({
         <div className="flex flex-1 flex-col gap-2">
           <label
             htmlFor="invite-email"
-            className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400"
+            className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500"
           >
             Email
           </label>
@@ -319,13 +319,13 @@ function InviteForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="ornek@firma.com"
-            className="rounded-md border border-white/10 bg-[#0e1119] px-3 py-2.5 text-[13.5px] text-zinc-100 placeholder:text-zinc-600 transition-colors focus:border-violet-400/60 focus:outline-none focus:ring-2 focus:ring-violet-400/15"
+            className="rounded-md border border-slate-200 bg-white px-3 py-2.5 text-[13.5px] text-slate-900 placeholder:text-slate-400 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
           />
         </div>
         <div className="flex flex-col gap-2 sm:w-[180px]">
           <label
             htmlFor="invite-role"
-            className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400"
+            className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500"
           >
             Rol
           </label>
@@ -333,7 +333,7 @@ function InviteForm({
             id="invite-role"
             value={role}
             onChange={(e) => setRole(e.target.value as Role)}
-            className="rounded-md border border-white/10 bg-[#0e1119] px-3 py-2.5 text-[13.5px] text-zinc-100 transition-colors focus:border-violet-400/60 focus:outline-none focus:ring-2 focus:ring-violet-400/15"
+            className="rounded-md border border-slate-200 bg-white px-3 py-2.5 text-[13.5px] text-slate-900 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
           >
             {ROLE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -345,7 +345,7 @@ function InviteForm({
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center justify-center rounded-md bg-violet-500 px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-violet-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-zinc-500 sm:self-end"
+          className="inline-flex items-center justify-center rounded-md bg-emerald-700 px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 sm:self-end"
         >
           {submitting ? "Gönderiliyor…" : "Davet Et"}
         </button>
@@ -354,7 +354,7 @@ function InviteForm({
       {error && (
         <div
           role="alert"
-          className="mt-3 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-[12.5px] text-red-300"
+          className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-[12.5px] text-red-700"
         >
           {error}
         </div>
@@ -362,7 +362,7 @@ function InviteForm({
       {success && (
         <div
           role="status"
-          className="mt-3 rounded-md border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[12.5px] text-emerald-300"
+          className="mt-3 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-[12.5px] text-emerald-700"
         >
           {success}
         </div>
@@ -382,7 +382,7 @@ function Th({
   return (
     <th
       scope="col"
-      className={`px-4 py-3 ${alignClass} text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400`}
+      className={`px-4 py-3 ${alignClass} text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500`}
     >
       {children}
     </th>

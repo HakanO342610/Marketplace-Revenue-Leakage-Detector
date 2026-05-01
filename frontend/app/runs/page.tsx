@@ -53,19 +53,19 @@ export default function RunsPage() {
       <div className="flex flex-col gap-6">
         <header className="flex items-end justify-between gap-4">
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
               Geçmiş Denetimler
             </span>
-            <h2 className="text-[28px] font-medium tracking-[-0.02em] text-zinc-50">
+            <h2 className="text-[28px] font-medium tracking-[-0.02em] text-slate-900">
               Çalıştırmalar
             </h2>
-            <p className="text-[13.5px] leading-relaxed text-zinc-300">
+            <p className="text-[13.5px] leading-relaxed text-slate-600">
               Yüklediğin dosyalar ve tespit edilen kayıplar.
             </p>
           </div>
           <Link
             href="/upload"
-            className="inline-flex items-center gap-2 rounded-md bg-violet-500 px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-violet-400"
+            className="inline-flex items-center gap-2 rounded-md bg-emerald-700 px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-emerald-800"
           >
             <span aria-hidden>+</span>
             <span>Yeni Yükleme</span>
@@ -75,7 +75,7 @@ export default function RunsPage() {
         {error && (
           <div
             role="alert"
-            className="relative rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 pl-5 text-[13px] text-red-300"
+            className="relative rounded-md border border-red-200 bg-red-50 px-4 py-3 pl-5 text-[13px] text-red-700"
           >
             <span
               aria-hidden
@@ -86,16 +86,16 @@ export default function RunsPage() {
         )}
 
         {runs === null ? (
-          <div className="rounded-xl border border-white/5 bg-[#11141b] p-8 font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-600">
+          <div className="rounded-xl border border-slate-200 bg-white p-8 font-mono text-[11px] uppercase tracking-[0.14em] text-slate-400 shadow-sm">
             Yükleniyor…
           </div>
         ) : runs.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-white/10 bg-[#11141b] p-12 text-center">
-            <p className="text-[13.5px] text-zinc-400">
+          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-12 text-center">
+            <p className="text-[13.5px] text-slate-600">
               Henüz yükleme yapılmadı.{" "}
               <Link
                 href="/upload"
-                className="font-medium text-violet-300 underline-offset-4 hover:underline"
+                className="font-medium text-emerald-700 underline-offset-4 hover:underline"
               >
                 Buraya tıklayıp ilkini başlat
               </Link>
@@ -103,10 +103,10 @@ export default function RunsPage() {
             </p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-white/5 bg-[#11141b] shadow-[0_1px_0_0_rgba(255,255,255,0.02)_inset]">
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <table className="w-full text-left text-[13px]">
               <thead>
-                <tr className="border-b border-white/5">
+                <tr className="border-b border-slate-200">
                   <Th>Tarih</Th>
                   <Th>Dosya</Th>
                   <Th>Run ID</Th>
@@ -122,12 +122,12 @@ export default function RunsPage() {
                   <tr
                     key={r.id}
                     onClick={() => router.push(`/dashboard/${r.id}`)}
-                    className="cursor-pointer border-b border-white/5 transition-colors hover:bg-white/[0.02]"
+                    className="cursor-pointer border-b border-slate-200 transition-colors hover:bg-slate-50"
                   >
-                    <td className="px-4 py-3.5 text-[13px] tabular-nums text-zinc-200">
+                    <td className="px-4 py-3.5 text-[13px] tabular-nums text-slate-700">
                       {formatDate(r.createdAt)}
                     </td>
-                    <td className="px-4 py-3.5 text-[13.5px] text-zinc-50">
+                    <td className="px-4 py-3.5 text-[13.5px] text-slate-900">
                       <span
                         className="block max-w-[28ch] truncate"
                         title={r.filename}
@@ -135,23 +135,23 @@ export default function RunsPage() {
                         {r.filename}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 font-mono text-[12px] text-zinc-300">
-                      <span className="text-zinc-500">·</span>{" "}
+                    <td className="px-4 py-3.5 font-mono text-[12px] text-slate-500">
+                      <span className="text-slate-400">·</span>{" "}
                       {truncateId(r.id)}
                     </td>
                     <td className="px-4 py-3.5">
-                      <span className="inline-flex items-center rounded-full border border-indigo-500/30 bg-indigo-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.10em] text-indigo-200">
+                      <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.10em] text-emerald-700">
                         {r.marketplace}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 text-right tabular-nums text-zinc-100">
+                    <td className="px-4 py-3.5 text-right tabular-nums text-slate-700">
                       {r.rowCount.toLocaleString("tr-TR")}
                     </td>
-                    <td className="px-4 py-3.5 text-right tabular-nums font-semibold text-red-400">
+                    <td className="px-4 py-3.5 text-right tabular-nums font-semibold text-red-600">
                       {formatTRY(r.totalLeakage)}
                     </td>
                     <td className="px-4 py-3.5 text-right">
-                      <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.10em] text-emerald-300">
+                      <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.10em] text-emerald-700">
                         Tamamlandı
                       </span>
                     </td>
@@ -159,7 +159,7 @@ export default function RunsPage() {
                       <Link
                         href={`/dashboard/${r.id}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.10em] text-zinc-400 transition-colors hover:text-violet-300"
+                        className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.10em] text-slate-500 transition-colors hover:text-emerald-700"
                       >
                         <span>Aç</span>
                         <span aria-hidden>→</span>
@@ -187,7 +187,7 @@ function Th({
   return (
     <th
       scope="col"
-      className={`px-4 py-3 ${alignClass} text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400`}
+      className={`px-4 py-3 ${alignClass} text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500`}
     >
       {children}
     </th>

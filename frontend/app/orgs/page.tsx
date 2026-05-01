@@ -17,9 +17,9 @@ const roleLabel: Record<Role, string> = {
 };
 
 const roleBadgeClass: Record<Role, string> = {
-  admin: "border-violet-400/30 bg-violet-500/15 text-violet-200",
-  member: "border-zinc-400/20 bg-white/[0.04] text-zinc-200",
-  viewer: "border-zinc-500/20 bg-white/[0.02] text-zinc-400",
+  admin: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  member: "border-slate-200 bg-slate-100 text-slate-700",
+  viewer: "border-slate-200 bg-slate-50 text-slate-500",
 };
 
 export default async function OrgsPage() {
@@ -36,13 +36,13 @@ export default async function OrgsPage() {
       <div className="flex flex-col gap-6">
         <header className="flex items-end justify-between gap-4">
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
               Çalışma Alanı
             </span>
-            <h2 className="text-[28px] font-medium tracking-[-0.02em] text-zinc-50">
+            <h2 className="text-[28px] font-medium tracking-[-0.02em] text-slate-900">
               Organizasyonlar
             </h2>
-            <p className="text-[13.5px] leading-relaxed text-zinc-300">
+            <p className="text-[13.5px] leading-relaxed text-slate-600">
               Birden fazla ekiple çalışıyorsan organizasyonlarını burada yönet.
             </p>
           </div>
@@ -52,7 +52,7 @@ export default async function OrgsPage() {
         {error && (
           <div
             role="alert"
-            className="relative rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 pl-5 text-[13px] text-red-300"
+            className="relative rounded-md border border-red-200 bg-red-50 px-4 py-3 pl-5 text-[13px] text-red-700"
           >
             <span
               aria-hidden
@@ -63,10 +63,10 @@ export default async function OrgsPage() {
         )}
 
         {orgs.length === 0 && !error ? (
-          <div className="rounded-xl border border-dashed border-white/10 bg-[#11141b] p-12 text-center">
-            <p className="text-[13.5px] text-zinc-300">
+          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-12 text-center">
+            <p className="text-[13.5px] text-slate-600">
               Henüz bir organizasyona dahil değilsin. Yukarıdan{" "}
-              <span className="text-violet-300">Yeni Organizasyon</span>{" "}
+              <span className="text-emerald-700">Yeni Organizasyon</span>{" "}
               oluşturarak başlayabilirsin.
             </p>
           </div>

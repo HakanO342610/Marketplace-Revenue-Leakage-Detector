@@ -46,28 +46,28 @@ export type SeverityClassSet = {
 export function severityClasses(s: AttributionSeverity): SeverityClassSet {
   if (s === "critical") {
     return {
-      bg: "bg-red-500/10",
-      text: "text-red-300",
-      border: "border-red-500/30",
-      ring: "ring-red-500/20",
+      bg: "bg-red-50",
+      text: "text-red-700",
+      border: "border-red-200",
+      ring: "ring-red-200",
       accent: "bg-red-500",
     };
   }
   if (s === "warning") {
     return {
-      bg: "bg-amber-400/10",
-      text: "text-amber-300",
-      border: "border-amber-400/30",
-      ring: "ring-amber-400/20",
-      accent: "bg-amber-400",
+      bg: "bg-amber-50",
+      text: "text-amber-700",
+      border: "border-amber-200",
+      ring: "ring-amber-200",
+      accent: "bg-amber-500",
     };
   }
   return {
-    bg: "bg-indigo-500/10",
-    text: "text-indigo-300",
-    border: "border-indigo-500/30",
-    ring: "ring-indigo-500/20",
-    accent: "bg-indigo-400",
+    bg: "bg-sky-50",
+    text: "text-sky-700",
+    border: "border-sky-200",
+    ring: "ring-sky-200",
+    accent: "bg-sky-500",
   };
 }
 

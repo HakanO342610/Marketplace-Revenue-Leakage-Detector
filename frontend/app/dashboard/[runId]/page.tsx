@@ -114,10 +114,10 @@ export default async function DashboardPage({
     <div className="px-8 py-6">
       <div className="flex flex-col gap-7">
         {/* RUN HEADER */}
-        <header className="flex flex-col gap-3 border-b border-white/5 pb-6">
+        <header className="flex flex-col gap-3 border-b border-slate-200 pb-6">
           <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
             <span
-              className="text-[22px] font-medium tracking-[-0.02em] text-zinc-50"
+              className="text-[22px] font-medium tracking-[-0.02em] text-slate-900"
               title={run?.filename}
             >
               {run?.filename ?? "Adsız dosya"}
@@ -131,10 +131,10 @@ export default async function DashboardPage({
             />
             <Sep />
             <span
-              className="font-mono text-[12px] text-zinc-400"
+              className="font-mono text-[12px] text-slate-500"
               title={runId}
             >
-              <span className="text-zinc-500">·</span> run/{truncatedId}
+              <span className="text-slate-400">·</span> run/{truncatedId}
             </span>
           </div>
         </header>
@@ -149,7 +149,7 @@ export default async function DashboardPage({
         <section className="flex flex-col gap-3">
           <div className="flex items-baseline justify-between">
             <SectionLabel>Layer 01 — CFO Özeti</SectionLabel>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
               tüm değerler ₺
             </span>
           </div>
@@ -189,16 +189,16 @@ export default async function DashboardPage({
           </div>
 
           {driver && driver.amount > 0 && (
-            <p className="mt-1 flex flex-wrap items-center gap-2 text-[12.5px] text-zinc-300">
-              <span className="font-mono uppercase tracking-[0.14em] text-zinc-400">
+            <p className="mt-1 flex flex-wrap items-center gap-2 text-[12.5px] text-slate-600">
+              <span className="font-mono uppercase tracking-[0.14em] text-slate-500">
                 en çok kayıp veren
               </span>
-              <span className="inline-flex items-center rounded-full border border-red-500/30 bg-red-500/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.10em] text-red-300">
+              <span className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.10em] text-red-700">
                 {issueLabel(driver.type)}
               </span>
-              <span className="tabular-nums text-zinc-200">%{driverShare}</span>
-              <span className="text-zinc-500">·</span>
-              <span className="tabular-nums font-semibold text-red-400">
+              <span className="tabular-nums text-slate-700">%{driverShare}</span>
+              <span className="text-slate-400">·</span>
+              <span className="tabular-nums font-semibold text-red-600">
                 {formatTRY(driver.amount)}
               </span>
             </p>
@@ -217,7 +217,7 @@ export default async function DashboardPage({
         <section className="flex flex-col gap-5">
           <div className="flex items-baseline justify-between">
             <SectionLabel>Layer 03 — Kök Neden</SectionLabel>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
               kayıp kaynakları
             </span>
           </div>
@@ -226,10 +226,10 @@ export default async function DashboardPage({
             summary.insights.top_drivers.length > 0 && (
               <div className="flex flex-col gap-3">
                 <div className="flex items-baseline justify-between">
-                  <h3 className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400">
+                  <h3 className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
                     En Yüksek 3 Kayıp Kaynağı
                   </h3>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400 tabular-nums">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500 tabular-nums">
                     {Math.min(3, summary.insights.top_drivers.length)} kalem
                   </span>
                 </div>
@@ -243,10 +243,10 @@ export default async function DashboardPage({
 
           <div className="flex flex-col gap-3">
             <div className="flex items-baseline justify-between">
-              <h3 className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400">
+              <h3 className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
                 Dağılım
               </h3>
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
                 kısa formatlı tutarlar
               </span>
             </div>
@@ -278,7 +278,7 @@ export default async function DashboardPage({
         <section className="flex flex-col gap-3">
           <div className="flex items-baseline justify-between">
             <SectionLabel>Layer 04 — Sorun İncelemesi</SectionLabel>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
               ilk 100 satır
             </span>
           </div>
@@ -300,17 +300,17 @@ async function safeGetMyRuns(): Promise<RunListItem[]> {
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
     <span className="inline-flex items-baseline gap-1.5">
-      <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+      <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
         {label}
       </span>
-      <span className="text-[13.5px] text-zinc-200">{value}</span>
+      <span className="text-[13.5px] text-slate-700">{value}</span>
     </span>
   );
 }
 
 function Sep() {
   return (
-    <span aria-hidden className="text-zinc-700">
+    <span aria-hidden className="text-slate-300">
       ·
     </span>
   );
@@ -318,7 +318,7 @@ function Sep() {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400">
+    <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
       {children}
     </h2>
   );

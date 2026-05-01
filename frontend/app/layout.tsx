@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className="h-full antialiased">
-      <body className="min-h-full bg-[#0b0d12] text-zinc-100 selection:bg-violet-500/30">
+      <body className="min-h-full bg-[#F3F5F7] text-slate-900 selection:bg-emerald-500/30">
         <div className="flex min-h-screen">
           {/* Sidebar self-hides on /, /login, /register */}
           <Sidebar />

@@ -46,17 +46,17 @@ export default function RegisterPage() {
         <div className="mb-6 flex items-center gap-2">
           <span
             aria-hidden
-            className="inline-block h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]"
+            className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-600"
           />
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
             Erişim — Yeni Hesap
           </span>
         </div>
-        <div className="rounded-xl border border-white/5 bg-[#11141b] p-7 shadow-[0_1px_0_0_rgba(255,255,255,0.02)_inset]">
-          <h1 className="text-[24px] font-medium tracking-[-0.02em] text-zinc-50">
+        <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
+          <h1 className="text-[24px] font-medium tracking-[-0.02em] text-slate-900">
             Hesap oluştur
           </h1>
-          <p className="mt-2 text-[13.5px] leading-relaxed text-zinc-300">
+          <p className="mt-2 text-[13.5px] leading-relaxed text-slate-600">
             Birkaç saniyede hesap aç ve ilk denetimini başlat.
           </p>
 
@@ -66,7 +66,7 @@ export default function RegisterPage() {
               label={
                 <>
                   İsim{" "}
-                  <span className="text-zinc-500 normal-case tracking-normal">
+                  <span className="text-slate-400 normal-case tracking-normal">
                     (opsiyonel)
                   </span>
                 </>
@@ -104,17 +104,17 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex items-center justify-center rounded-md bg-violet-500 px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-violet-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-zinc-500"
+              className="inline-flex items-center justify-center rounded-md bg-emerald-700 px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
             >
               {submitting ? "Hesap açılıyor…" : "Hesap oluştur"}
             </button>
           </form>
 
-          <p className="mt-7 text-[13px] text-zinc-400">
+          <p className="mt-7 text-[13px] text-slate-600">
             Zaten hesabın var mı?{" "}
             <Link
               href="/login"
-              className="font-medium text-violet-300 underline-offset-4 hover:underline"
+              className="font-medium text-emerald-700 underline-offset-4 hover:underline"
             >
               Giriş yap
             </Link>
@@ -150,7 +150,7 @@ function Field({
     <div className="flex flex-col gap-2">
       <label
         htmlFor={id}
-        className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400"
+        className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500"
       >
         {label}
       </label>
@@ -162,9 +162,9 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         minLength={minLength}
-        className="rounded-md border border-white/10 bg-[#0e1119] px-3 py-2.5 text-[13.5px] text-zinc-100 placeholder:text-zinc-600 transition-colors focus:border-violet-400/60 focus:outline-none focus:ring-2 focus:ring-violet-400/15"
+        className="rounded-md border border-slate-200 bg-white px-3 py-2.5 text-[13.5px] text-slate-900 placeholder:text-slate-400 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
       />
-      {hint && <p className="text-[12px] text-zinc-400">{hint}</p>}
+      {hint && <p className="text-[12px] text-slate-500">{hint}</p>}
     </div>
   );
 }
@@ -173,7 +173,7 @@ function ErrorBox({ message }: { message: string }) {
   return (
     <div
       role="alert"
-      className="relative rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 pl-5 text-[13px] text-red-300"
+      className="relative rounded-md border border-red-200 bg-red-50 px-4 py-3 pl-5 text-[13px] text-red-700"
     >
       <span
         aria-hidden

@@ -14,37 +14,37 @@ export default function KpiCard({
   delta?: string;
 }) {
   const valueClass: Record<Tone, string> = {
-    neutral: "text-zinc-50",
-    danger: "text-red-400",
-    positive: "text-emerald-400",
-    subtle: "text-zinc-400",
+    neutral: "text-slate-900",
+    danger: "text-red-600",
+    positive: "text-emerald-700",
+    subtle: "text-slate-500",
   };
 
   const deltaClass: Record<Tone, string> = {
-    neutral: "border-white/10 bg-white/[0.03] text-zinc-300",
-    danger: "border-red-500/30 bg-red-500/10 text-red-300",
-    positive: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
-    subtle: "border-white/10 bg-white/[0.03] text-zinc-400",
+    neutral: "border-slate-200 bg-slate-50 text-slate-700",
+    danger: "border-red-200 bg-red-50 text-red-700",
+    positive: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    subtle: "border-slate-200 bg-slate-50 text-slate-500",
   };
 
   const sizeClass = tone === "subtle" ? "text-[22px]" : "text-[26px]";
 
   const dangerInset =
     tone === "danger"
-      ? "shadow-[inset_0_1px_0_0_rgba(239,68,68,0.18),inset_1px_0_0_0_rgba(239,68,68,0.10)] border-red-500/20"
-      : "border-white/5";
+      ? "shadow-[0_0_0_1px_rgba(220,38,38,0.10)] border-red-200"
+      : "border-slate-200";
 
   return (
     <div
-      className={`group relative flex flex-col rounded-xl border bg-[#11141b] p-5 transition-colors hover:border-white/15 ${dangerInset}`}
+      className={`group relative flex flex-col rounded-xl border bg-white p-5 shadow-sm transition-colors hover:border-slate-300 ${dangerInset}`}
     >
       {tone === "danger" && (
         <span
           aria-hidden
-          className="absolute left-0 top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-red-500/40 to-transparent"
+          className="absolute left-0 top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-red-400/60 to-transparent"
         />
       )}
-      <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400">
+      <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
         {title}
       </div>
       <div
@@ -61,7 +61,7 @@ export default function KpiCard({
           </span>
         )}
         {subtitle && (
-          <span className="text-[11px] tabular-nums text-zinc-400">
+          <span className="text-[11px] tabular-nums text-slate-500">
             {subtitle}
           </span>
         )}

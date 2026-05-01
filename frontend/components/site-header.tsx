@@ -110,19 +110,19 @@ function AppTopBar({
   onLogout: () => void;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-white/5 bg-[#0b0d12]/80 backdrop-blur-md supports-[backdrop-filter]:bg-[#0b0d12]/60">
+    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur-md supports-[backdrop-filter]:bg-white/70">
       <div className="flex items-center justify-between gap-4 px-8 py-3.5">
-        <h1 className="text-[18px] font-medium tracking-[-0.01em] text-zinc-100">
+        <h1 className="text-[18px] font-medium tracking-[-0.01em] text-slate-900">
           {pageTitleFor(pathname)}
         </h1>
 
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.02] px-2.5 py-1.5 text-[12px] font-medium text-zinc-200 transition-colors hover:border-white/15 hover:bg-white/[0.04] hover:text-zinc-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900"
             aria-label="Dil seçici"
           >
-            <span aria-hidden className="text-[11px] text-zinc-400">
+            <span aria-hidden className="text-[11px] text-slate-500">
               ◐
             </span>
             <span>TR</span>
@@ -130,7 +130,7 @@ function AppTopBar({
 
           <button
             type="button"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-white/[0.02] text-[13px] text-zinc-300 transition-colors hover:border-white/15 hover:bg-white/[0.04] hover:text-zinc-100"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-[13px] text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900"
             aria-label="Tema değiştir"
           >
             <span aria-hidden>☾</span>
@@ -139,7 +139,7 @@ function AppTopBar({
           {auth.status === "loading" && (
             <span
               aria-hidden
-              className="ml-2 inline-block h-7 w-40 animate-pulse rounded-md bg-white/5"
+              className="ml-2 inline-block h-7 w-40 animate-pulse rounded-md bg-slate-100"
             />
           )}
 
@@ -151,10 +151,10 @@ function AppTopBar({
                   className="ml-1 hidden flex-col items-end leading-none sm:flex"
                   title="Organizasyonu değiştir"
                 >
-                  <span className="text-[13px] text-zinc-200 hover:text-zinc-50">
+                  <span className="text-[13px] text-slate-700 hover:text-slate-900">
                     {activeOrg.name}
                   </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
                     {ROLE_LABEL[activeOrg.role]}
                   </span>
                 </Link>
@@ -167,13 +167,13 @@ function AppTopBar({
             <div className="ml-1 flex items-center gap-1.5">
               <Link
                 href="/login"
-                className="rounded-md px-3 py-1.5 text-[12px] font-medium text-zinc-300 transition-colors hover:text-zinc-100"
+                className="rounded-md px-3 py-1.5 text-[12px] font-medium text-slate-700 transition-colors hover:text-slate-900"
               >
                 Giriş
               </Link>
               <Link
                 href="/register"
-                className="rounded-md bg-violet-500 px-3 py-1.5 text-[12px] font-semibold text-white transition-colors hover:bg-violet-400"
+                className="rounded-md bg-emerald-700 px-3 py-1.5 text-[12px] font-semibold text-white transition-colors hover:bg-emerald-800"
               >
                 Kayıt
               </Link>
@@ -189,15 +189,15 @@ function UserPill({ user, onLogout }: { user: User; onLogout: () => void }) {
   const initial = (user.email[0] ?? "?").toUpperCase();
   return (
     <div className="ml-1 flex items-center gap-2">
-      <div className="hidden items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.02] py-1 pl-1 pr-3 sm:flex">
+      <div className="hidden items-center gap-2.5 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3 sm:flex">
         <span
           aria-hidden
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-violet-500/20 text-[11px] font-semibold text-violet-200"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-[11px] font-semibold text-emerald-700"
         >
           {initial}
         </span>
         <span className="flex items-baseline gap-2 leading-none">
-          <span className="text-[12px] text-zinc-200" title={user.email}>
+          <span className="text-[12px] text-slate-700" title={user.email}>
             {user.email}
           </span>
         </span>
@@ -205,7 +205,7 @@ function UserPill({ user, onLogout }: { user: User; onLogout: () => void }) {
       <button
         type="button"
         onClick={onLogout}
-        className="rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 text-[11.5px] font-medium text-zinc-300 transition-colors hover:border-white/15 hover:bg-white/[0.04] hover:text-zinc-100"
+        className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-[11.5px] font-medium text-slate-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700"
       >
         Çıkış
       </button>
@@ -223,23 +223,23 @@ function PublicHeader({
   onLogout: () => void;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-white/5 bg-[#0b0d12]/80 backdrop-blur-md supports-[backdrop-filter]:bg-[#0b0d12]/60">
+    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur-md supports-[backdrop-filter]:bg-white/70">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-3.5">
         <Link
           href="/"
-          className="group inline-flex items-baseline gap-1.5 font-mono text-sm font-semibold tracking-tight text-zinc-100"
+          className="group inline-flex items-baseline gap-1.5 font-mono text-sm font-semibold tracking-tight text-slate-900"
         >
           <span>MRLD</span>
           <span
             aria-hidden
-            className="h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.6)] transition-transform group-hover:scale-125"
+            className="h-1.5 w-1.5 rounded-full bg-emerald-700 transition-transform group-hover:scale-125"
           />
         </Link>
         <nav className="flex items-center gap-1 text-sm">
           {auth.status === "loading" && (
             <span
               aria-hidden
-              className="ml-3 inline-block h-4 w-24 animate-pulse rounded bg-white/5"
+              className="ml-3 inline-block h-4 w-24 animate-pulse rounded bg-slate-100"
             />
           )}
 
@@ -247,14 +247,14 @@ function PublicHeader({
             <>
               <Link
                 href="/runs"
-                className="rounded-md px-3 py-1.5 text-[12px] font-medium text-zinc-300 transition-colors hover:text-zinc-100"
+                className="rounded-md px-3 py-1.5 text-[12px] font-medium text-slate-700 transition-colors hover:text-slate-900"
               >
                 Kontrol Paneli
               </Link>
               <button
                 type="button"
                 onClick={onLogout}
-                className="ml-2 rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 text-[11.5px] font-medium text-zinc-300 transition-colors hover:border-white/15 hover:bg-white/[0.04] hover:text-zinc-100"
+                className="ml-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-[11.5px] font-medium text-slate-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700"
               >
                 Çıkış
               </button>
@@ -265,13 +265,13 @@ function PublicHeader({
             <>
               <Link
                 href="/login"
-                className="rounded-md px-3 py-1.5 text-[12px] font-medium text-zinc-300 transition-colors hover:text-zinc-100"
+                className="rounded-md px-3 py-1.5 text-[12px] font-medium text-slate-700 transition-colors hover:text-slate-900"
               >
                 Giriş
               </Link>
               <Link
                 href="/register"
-                className="ml-1 rounded-md bg-violet-500 px-3.5 py-1.5 text-[12px] font-semibold text-white transition-colors hover:bg-violet-400"
+                className="ml-1 rounded-md bg-emerald-700 px-3.5 py-1.5 text-[12px] font-semibold text-white transition-colors hover:bg-emerald-800"
               >
                 Kayıt
               </Link>

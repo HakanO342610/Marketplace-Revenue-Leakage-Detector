@@ -214,20 +214,20 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="sticky top-0 z-30 hidden h-screen w-[240px] shrink-0 flex-col border-r border-white/5 bg-[#0e1119] lg:flex">
+    <aside className="sticky top-0 z-30 hidden h-screen w-[240px] shrink-0 flex-col border-r border-slate-200 bg-white lg:flex">
       {/* Brand */}
-      <div className="flex flex-col gap-1 border-b border-white/5 px-5 py-5">
+      <div className="flex flex-col gap-1 border-b border-slate-200 px-5 py-5">
         <Link
           href="/runs"
-          className="group inline-flex items-baseline gap-1.5 font-mono text-[15px] font-semibold tracking-tight text-zinc-100"
+          className="group inline-flex items-baseline gap-1.5 font-mono text-[15px] font-semibold tracking-tight text-slate-900"
         >
           <span>MRLD</span>
           <span
             aria-hidden
-            className="h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_12px_rgba(139,92,246,0.6)] transition-transform group-hover:scale-125"
+            className="h-1.5 w-1.5 rounded-full bg-emerald-700 transition-transform group-hover:scale-125"
           />
         </Link>
-        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-300">
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
           Pazaryeri Denetim
         </span>
       </div>
@@ -235,27 +235,27 @@ export default function Sidebar() {
       {/* Org switcher */}
       <div
         ref={dropdownRef}
-        className="relative border-b border-white/5 px-3 py-3"
+        className="relative border-b border-slate-200 px-3 py-3"
       >
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           disabled={!orgs || orgs.length === 0}
-          className="flex w-full items-center justify-between gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-left transition-colors hover:border-violet-400/30 hover:bg-white/[0.04] disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left transition-colors hover:bg-slate-100 hover:border-slate-300 disabled:cursor-not-allowed disabled:opacity-50"
           aria-haspopup="listbox"
           aria-expanded={open}
         >
           <span className="flex min-w-0 flex-col gap-0.5">
-            <span className="truncate text-[12.5px] font-medium text-zinc-100">
+            <span className="truncate text-[12.5px] font-medium text-slate-900">
               {active ? active.name : "Organizasyon seç"}
             </span>
             {active && (
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
                 {ROLE_LABEL[active.role]}
               </span>
             )}
           </span>
-          <span aria-hidden className="text-[10px] text-zinc-500">
+          <span aria-hidden className="text-[10px] text-slate-400">
             ▾
           </span>
         </button>
@@ -263,7 +263,7 @@ export default function Sidebar() {
         {open && (
           <div
             role="listbox"
-            className="absolute left-3 right-3 top-[calc(100%-4px)] z-40 mt-1 overflow-hidden rounded-lg border border-white/10 bg-[#11141b] shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]"
+            className="absolute left-3 right-3 top-[calc(100%-4px)] z-40 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_20px_60px_-20px_rgba(15,23,42,0.18)]"
           >
             <ul className="max-h-72 overflow-y-auto py-1">
               {(orgs ?? []).map((o) => {
@@ -277,22 +277,22 @@ export default function Sidebar() {
                       onClick={() => switchOrg(o.id)}
                       className={`flex w-full items-center justify-between gap-2 px-3 py-2 text-left transition-colors ${
                         isActive
-                          ? "bg-violet-500/10 text-violet-100"
-                          : "text-zinc-200 hover:bg-white/[0.03]"
+                          ? "bg-emerald-50 text-emerald-800"
+                          : "text-slate-700 hover:bg-slate-50"
                       }`}
                     >
                       <span className="flex min-w-0 flex-col gap-0.5">
                         <span className="truncate text-[12.5px] font-medium">
                           {o.name}
                         </span>
-                        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500">
                           {ROLE_LABEL[o.role]}
                         </span>
                       </span>
                       {isActive && (
                         <span
                           aria-hidden
-                          className="text-[11px] text-violet-300"
+                          className="text-[11px] text-emerald-600"
                         >
                           ●
                         </span>
@@ -305,7 +305,7 @@ export default function Sidebar() {
             <Link
               href="/orgs"
               onClick={() => setOpen(false)}
-              className="block border-t border-white/5 px-3 py-2 text-[12px] font-medium text-violet-300 transition-colors hover:bg-violet-500/10"
+              className="block border-t border-slate-200 px-3 py-2 text-[12px] font-medium text-emerald-700 transition-colors hover:bg-emerald-50"
             >
               + Yeni…
             </Link>
@@ -330,8 +330,8 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-white/5 px-5 py-4">
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-600">
+      <div className="border-t border-slate-200 px-5 py-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-400">
           v0.1
         </span>
       </div>
@@ -341,16 +341,16 @@ export default function Sidebar() {
 
 function SidebarLink({ item, active }: { item: NavItem; active: boolean }) {
   const baseClasses =
-    "group flex items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium transition-colors focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-violet-400/40";
+    "group flex items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium transition-colors focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400/40";
 
   if (item.disabled) {
     return (
       <span
         aria-disabled
-        className={`${baseClasses} cursor-not-allowed text-zinc-600`}
+        className={`${baseClasses} cursor-not-allowed text-slate-400`}
         title="Yakında"
       >
-        <span className="inline-flex h-5 w-5 items-center justify-center text-zinc-700">
+        <span className="inline-flex h-5 w-5 items-center justify-center text-slate-400">
           <NavIcon name={item.icon} />
         </span>
         <span>{item.label}</span>
@@ -363,9 +363,9 @@ function SidebarLink({ item, active }: { item: NavItem; active: boolean }) {
       <Link
         href={item.href}
         aria-current="page"
-        className={`${baseClasses} border-l-2 border-violet-400 bg-violet-500/15 text-violet-200`}
+        className={`${baseClasses} border-l-2 border-emerald-600 bg-emerald-50 text-emerald-800`}
       >
-        <span className="inline-flex h-5 w-5 items-center justify-center text-violet-300">
+        <span className="inline-flex h-5 w-5 items-center justify-center text-emerald-700">
           <NavIcon name={item.icon} />
         </span>
         <span>{item.label}</span>
@@ -376,9 +376,9 @@ function SidebarLink({ item, active }: { item: NavItem; active: boolean }) {
   return (
     <Link
       href={item.href}
-      className={`${baseClasses} text-zinc-300 hover:bg-white/[0.03] hover:text-zinc-100`}
+      className={`${baseClasses} text-slate-700 hover:bg-slate-50 hover:text-slate-900`}
     >
-      <span className="inline-flex h-5 w-5 items-center justify-center text-zinc-400 group-hover:text-zinc-200">
+      <span className="inline-flex h-5 w-5 items-center justify-center text-slate-500 group-hover:text-slate-700">
         <NavIcon name={item.icon} />
       </span>
       <span>{item.label}</span>

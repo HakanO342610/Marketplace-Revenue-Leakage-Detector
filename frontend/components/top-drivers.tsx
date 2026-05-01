@@ -15,36 +15,36 @@ export default function TopDrivers({ drivers }: { drivers: TopDriver[] }) {
         return (
           <article
             key={`${d.type}-${i}`}
-            className={`relative flex flex-col gap-3 rounded-lg bg-[#11141b] p-5 shadow-[0_1px_0_0_rgba(255,255,255,0.02)_inset] ${
+            className={`relative flex flex-col gap-3 rounded-lg bg-white p-5 shadow-sm ${
               isFirst
-                ? "border border-white/5 border-l-2 border-l-violet-500"
-                : "border border-white/5"
+                ? "border border-slate-200 border-l-2 border-l-emerald-600"
+                : "border border-slate-200"
             }`}
           >
             <div className="flex items-baseline justify-between gap-3">
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400 tabular-nums">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-400 tabular-nums">
                 {rank}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400 tabular-nums">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500 tabular-nums">
                 %{pct}
               </span>
             </div>
 
-            <h3 className="text-[15px] font-medium leading-snug tracking-[-0.01em] text-zinc-50">
+            <h3 className="text-[15px] font-medium leading-snug tracking-[-0.01em] text-slate-900">
               {d.label}
             </h3>
 
             <div
               className={`text-[24px] font-medium tabular-nums leading-none tracking-[-0.02em] ${
-                isFirst ? "text-violet-200" : "text-zinc-100"
+                isFirst ? "text-emerald-700" : "text-slate-900"
               }`}
             >
               {formatTRY(d.amount)}
             </div>
 
-            <div className="mt-1 h-[3px] w-full overflow-hidden rounded-full bg-white/[0.05]">
+            <div className="mt-1 h-[3px] w-full overflow-hidden rounded-full bg-slate-100">
               <div
-                className={`h-full ${isFirst ? "bg-violet-500" : "bg-violet-400/60"}`}
+                className={`h-full ${isFirst ? "bg-emerald-600" : "bg-emerald-400"}`}
                 style={{ width: `${pct}%` }}
               />
             </div>
