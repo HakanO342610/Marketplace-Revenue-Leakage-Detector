@@ -169,7 +169,11 @@ const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 export function apiBase(): string {
   if (typeof window === "undefined") {
-    return process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3101";
+    return (
+      process.env.BACKEND_INTERNAL_URL ||
+      process.env.NEXT_PUBLIC_BACKEND_URL ||
+      "http://localhost:3101"
+    );
   }
   return "";
 }

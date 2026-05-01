@@ -94,6 +94,43 @@ Against `datasets/sample.csv`:
 - v3 ileri özellikler: AI-powered insights (LLM), anomaly detection, native Trendyol/HB adapter, PDF/CSV export, Recharts, drill-down modal
 - Hetzner deploy: backend/.env.example'da Hetzner CX23 (89.167.115.209) placeholder var, prod connection string alınınca deploy
 
+---
+
+### Açık Sprint Başlıkları (2026-05-01 itibariyle, sırasız backlog)
+
+Bunlar bağımsız sprint'ler olarak ele alınabilir — herhangi birinden başlayabiliriz:
+
+1. **Hetzner deploy** — backend `.env.example`'da Hetzner CX23 (89.167.115.209) placeholder var. User prod connection string sağlayınca: docker-compose prod profile, GitHub Actions deploy workflow, nginx reverse proxy + SSL (Caddy/Let's Encrypt), domain bağlama, frontend Vercel veya aynı sunucuda host. PM2 veya systemd ile NestJS process management.
+
+2. **AI-powered insights (LLM)** — mevcut template-based InsightsService'i Anthropic Claude API ile değiştir. Input: SummaryDto v2; output: gerçek doğal-dil narrative + risk yorumu + öneri. Prompt cache'le (sample.csv için aynı çıkar). Cost guard: token budget per run. Anti-pattern: streaming yok, kısa cevap (200-300 token).
+
+3. **Charts (Recharts) — zaman serisi** — şu an snapshot-only. Zaman boyutunu eklemek için: birden fazla `UploadRun`'ı aynı org'da agrega ederek aylık trend. Recharts yerine Tremor veya `@nivo` da değerlendirilebilir. Hedef: dashboard'da "Son 6 ay leakage trendi" line chart + ay-bazında driver kırılımı stacked bar.
+
+4. **PDF export (audit raporu)** — dashboard'un printable versiyonu. `@react-pdf/renderer` veya server-side Puppeteer ile. İçerik: kapak (müşteri adı, tarih, run ID), CFO özet, KPI grid, top drivers donut, root-causes tablo, 50 satırlık sample bulgu, kapanış. Tek tıklık `/api/export/pdf?runId=...` endpoint. Email göndermek için Resend entegrasyonu opsiyonel.
+
+5. **Native Trendyol/HB CSV export adapter'ları** — şu an tek bir merged CSV format bekliyoruz. Gerçek Trendyol satıcı paneli "Hakediş Detayı" CSV ve Hepsiburada satıcı portali farklı kolonlara sahip. Her marketplace için ayrı parser modülü: `parsers/trendyol.parser.ts`, `parsers/hepsiburada.parser.ts`, dispatcher upload sırasında `marketplace` form field'ına göre seçer. Format detection (header eşleme) + unit testler (gerçek müşteri sample dosyalarıyla).
+
+**Önceliklendirme önerisi:**
+- Para hızı: **#1 Hetzner deploy** (yayında olmadan satış yok) → **#5 native adapter'lar** (gerçek dosya kabul etmek için şart)
+- Demo gücü: **#4 PDF export** (satış toplantısında müşteriye bırakacak somut çıktı) → **#2 AI insights** (premium hissi)
+- v3 polish: **#3 zaman serisi** (sürekli izleme abonelik modeline destek)
+
+---
+
+### Donnerstag.ai analizinden landing P0 öneriler (2026-05-01)
+
+Tarayıcı analiz sonrası belirlenen P0 landing iyileştirmeleri (henüz uygulanmadı):
+1. Hero tipografisini büyüt (text-7xl → text-8xl/9xl lg)
+2. 3 trust badge ekle: 🇹🇷 Türkiye barındırma · ✓ KVKK uyumlu · 🛡 Kurumsal güvenlik
+3. Tek CTA stratejisi (Sign Up + Open Account → tek "Ücretsiz Denetim Başlat")
+4. Vaka çalışması bandı (gerçek/mock müşteri quote + sayısal kanıt)
+
+P1 (sonraki sprint): 3 sektör kartı (Moda/Elektronik/FMCG), 4-aşama timeline ("Değer Kanıtı" rebrand), FAQ section, üst banner mekanizması.
+
+P2: blog/resources, partners sayfası, EN switcher, aggregate metric sayacı.
+
+Strateji: "Free Trial" yerine **"Değer Kanıtı"** (Proof of Value) — donnerstag formülü; CFO'ya "para buldun göster" mesajı.
+
 **Operasyonel kararlar (locked):**
 - Brand: **violet-500** (#8b5cf6) — finansal güven, indigo info severity için ikincil
 - Surfaces: #0b0d12 page / #11141b card / #1a1e27 elevated, navy tint
