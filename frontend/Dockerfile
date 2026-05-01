@@ -15,6 +15,12 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Bake the backend URL into the rewrite manifest at build time.
+# Next.js rewrites() are evaluated once during `next build` and
+# serialized into routes-manifest.json — runtime env is too late.
+ARG BACKEND_INTERNAL_URL=http://backend:3101
+ENV BACKEND_INTERNAL_URL=$BACKEND_INTERNAL_URL
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
