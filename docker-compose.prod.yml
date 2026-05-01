@@ -1,23 +1,49 @@
-# Production compose for Hetzner deploy.
-# Postgres runs externally on Hetzner — we connect via DATABASE_URL.
-# Caddy auto-issues SSL certificates from Let's Encrypt for ${DOMAIN}.
+# =====================================================================
+# MRLD — Production compose for Hetzner (no domain, IP-only)
+# Mirrors the Xpensio deployment pattern: Postgres in Docker, backend
+# only on internal Docker network, frontend exposed on host port 3100.
+# Add Caddy + a real domain later when product matures.
+# =====================================================================
 
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mrld_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mrld
+      POSTGRES_USER: mrld
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # NOT bound to host — internal Docker network only
+    volumes:
+      - mrld_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mrld -d mrld"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - mrld_net
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     image: mrld-backend:latest
-    container_name: mrld_backend
+    container_name: mrld_api
     restart: unless-stopped
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: postgresql://mrld:${POSTGRES_PASSWORD}@postgres:5432/mrld?schema=public
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
       PORT: 3101
       NODE_ENV: production
+    # NOT exposed to host — frontend proxies via /api/*
     expose:
       - "3101"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - mrld_net
 
@@ -26,36 +52,16 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     image: mrld-frontend:latest
-    container_name: mrld_frontend
+    container_name: mrld_web
     restart: unless-stopped
     environment:
-      # SSR uses Docker DNS to reach backend over private network
+      # SSR fetches backend through Docker DNS
       BACKEND_INTERNAL_URL: http://backend:3101
       NODE_ENV: production
-    expose:
-      - "3000"
-    depends_on:
-      - backend
-    networks:
-      - mrld_net
-
-  caddy:
-    image: caddy:2-alpine
-    container_name: mrld_caddy
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    environment:
-      DOMAIN: ${DOMAIN}
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
+      - "3100:3000"
     depends_on:
       - backend
-      - frontend
     networks:
       - mrld_net
 
@@ -64,5 +70,4 @@ networks:
     driver: bridge
 
 volumes:
-  caddy_data:
-  caddy_config:
+  mrld_pg_data:
